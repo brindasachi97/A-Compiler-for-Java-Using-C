@@ -1,0 +1,2043 @@
+Nonterminals useless in grammar
+
+   assign_e
+
+
+Terminals unused in grammar
+
+   DECIMAL
+   CONSTANT
+   STRING_LITERAL
+   AND_OP
+   OR_OP
+   MUL_ASSIGN
+   DIV_ASSIGN
+   MOD
+   ADD_ASSIGN
+   SUB_ASSIGN
+   TYPEDEF
+   CHAR
+   CONST
+   GOTO
+   CONTINUE
+   BREAK
+   RETURN
+   SOP
+   COL
+   BIT_AND
+   NOT
+   EXP
+   BIT_OR
+   QUE
+   NE
+
+
+Rules useless in parser due to conflicts
+
+   65 $@19: %empty
+
+
+State 37 conflicts: 1 shift/reduce
+State 53 conflicts: 1 reduce/reduce
+State 65 conflicts: 1 shift/reduce
+State 66 conflicts: 1 shift/reduce
+State 98 conflicts: 1 shift/reduce
+State 99 conflicts: 1 shift/reduce
+State 100 conflicts: 1 shift/reduce
+State 101 conflicts: 1 shift/reduce
+State 102 conflicts: 1 shift/reduce
+State 103 conflicts: 1 shift/reduce
+State 104 conflicts: 1 shift/reduce
+State 105 conflicts: 1 shift/reduce
+State 106 conflicts: 1 shift/reduce
+State 107 conflicts: 1 shift/reduce
+State 109 conflicts: 1 shift/reduce
+State 132 conflicts: 1 shift/reduce
+State 133 conflicts: 1 shift/reduce
+State 136 conflicts: 1 shift/reduce
+State 137 conflicts: 1 shift/reduce
+State 138 conflicts: 1 shift/reduce
+State 142 conflicts: 1 shift/reduce
+State 147 conflicts: 1 shift/reduce
+State 151 conflicts: 1 shift/reduce
+State 157 conflicts: 1 shift/reduce
+
+
+Grammar
+
+    0 $accept: S $end
+
+    1 S: compilation_unit
+
+    2 compilation_unit: package_statement import_statement class_stmt
+
+    3 package_statement: PACKAGE IDENTIFIER SEMC
+
+    4 import_statement: IMPORT IDENTIFIER DOT MUL SEMC
+    5                 | IMPORT class_name SEMC
+    6                 | IMPORT MUL SEMC
+    7                 | %empty
+
+    8 class_name: IDENTIFIER
+
+    9 class_stmt: PUBLIC CLASS class_name OF main_method CF
+
+   10 main_method: PUBLIC STATIC VOID MAIN OC STRING OS FS ARGS CC OF sl CF
+
+   11 sl: sl s1
+   12   | %empty
+
+   13 s1: variable_declaration SEMC
+   14   | expression SEMC
+   15   | if_stmt
+   16   | for_stmt
+   17   | SEMC
+
+   18 variable_declaration: dtypes
+
+   19 dtypes: INT ids1
+   20       | FLOAT ids2
+   21       | BOOLEAN ids3
+
+   22 $@1: %empty
+
+   23 $@2: %empty
+
+   24 ids1: IDENTIFIER $@1 EQ $@2 arithm_e
+   25     | ids1 COMMA IDENTIFIER
+   26     | IDENTIFIER
+
+   27 $@3: %empty
+
+   28 $@4: %empty
+
+   29 ids2: IDENTIFIER $@3 EQ $@4 arithm_e
+   30     | ids2 COMMA IDENTIFIER
+   31     | IDENTIFIER
+
+   32 $@5: %empty
+
+   33 $@6: %empty
+
+   34 ids3: IDENTIFIER $@5 EQ $@6 rel_e
+   35     | ids3 COMMA IDENTIFIER
+   36     | IDENTIFIER
+
+   37 expression: rel_e
+   38           | arithm_e
+
+   39 $@7: %empty
+
+   40 rel_e: arithm_e LT $@7 arithm_e
+
+   41 $@8: %empty
+
+   42 rel_e: arithm_e GT $@8 arithm_e
+
+   43 $@9: %empty
+
+   44 rel_e: arithm_e LE $@9 arithm_e
+
+   45 $@10: %empty
+
+   46 rel_e: arithm_e GE $@10 arithm_e
+
+   47 $@11: %empty
+
+   48 rel_e: arithm_e DEQ $@11 arithm_e
+
+   49 $@12: %empty
+
+   50 rel_e: arithm_e NE_OP $@12 arithm_e
+
+   51 $@13: %empty
+
+   52 $@14: %empty
+
+   53 rel_e: IDENTIFIER $@13 EQ $@14 rel_e
+   54      | TRUE1
+   55      | FALSE1
+   56      | arithm_e
+
+   57 $@15: %empty
+
+   58 arithm_e: arithm_e ADD $@15 arithm_e
+
+   59 $@16: %empty
+
+   60 arithm_e: arithm_e SUB $@16 arithm_e
+
+   61 $@17: %empty
+
+   62 arithm_e: arithm_e MUL $@17 arithm_e
+
+   63 $@18: %empty
+
+   64 arithm_e: arithm_e DIV $@18 arithm_e
+
+   65 $@19: %empty
+
+   66 $@20: %empty
+
+   67 $@21: %empty
+
+   68 arithm_e: $@19 IDENTIFIER $@20 EQ $@21 arithm_e
+   69         | IDENTIFIER
+
+   70 $@22: %empty
+
+   71 arithm_e: $@22 NUM
+
+   72 $@23: %empty
+
+   73 arithm_e: IDENTIFIER $@23 INC_OP
+
+   74 $@24: %empty
+
+   75 arithm_e: IDENTIFIER $@24 DEC_OP
+
+   76 $@25: %empty
+
+   77 $@26: %empty
+
+   78 if_stmt: IF OC rel_e CC $@25 OF sl CF $@26 ELSE OF sl CF
+
+   79 for_stmt: FOR OC for_args CC OF sl CF
+
+   80 $@27: %empty
+
+   81 $@28: %empty
+
+   82 for_args: arg1 $@27 SEMC arg2 $@28 SEMC arg3
+
+   83 arg1: variable_declaration
+   84     | expression
+   85     | %empty
+
+   86 arg2: rel_e
+   87     | %empty
+
+   88 arg3: arithm_e
+   89     | %empty
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+NUM (258) 71
+DECIMAL (259)
+IDENTIFIER (260) 3 4 8 24 25 26 29 30 31 34 35 36 53 68 69 73 75
+CONSTANT (261)
+STRING_LITERAL (262)
+INC_OP (263) 73
+DEC_OP (264) 75
+LE (265) 44
+GE (266) 46
+EQ (267) 24 29 34 53 68
+NE_OP (268) 50
+DEQ (269) 48
+AND_OP (270)
+OR_OP (271)
+MUL_ASSIGN (272)
+DIV_ASSIGN (273)
+MOD (274)
+ADD_ASSIGN (275)
+SUB_ASSIGN (276)
+TYPEDEF (277)
+STATIC (278) 10
+CHAR (279)
+INT (280) 19
+FLOAT (281) 20
+CONST (282)
+VOID (283) 10
+IF (284) 78
+ELSE (285) 78
+FOR (286) 79
+GOTO (287)
+CONTINUE (288)
+BREAK (289)
+RETURN (290)
+TRUE1 (291) 54
+FALSE1 (292) 55
+BOOLEAN (293) 21
+IMPORT (294) 4 5 6
+CLASS (295) 9
+PACKAGE (296) 3
+MAIN (297) 10
+STRING (298) 10
+ARGS (299) 10
+PUBLIC (300) 9 10
+SOP (301)
+OC (302) 10 78 79
+CC (303) 10 78 79
+OF (304) 9 10 78 79
+CF (305) 9 10 78 79
+OS (306) 10
+FS (307) 10
+ADD (308) 58
+SUB (309) 60
+MUL (310) 4 6 62
+DIV (311) 64
+LT (312) 40
+GT (313) 42
+COMMA (314) 25 30 35
+COL (315)
+DOT (316) 4
+BIT_AND (317)
+NOT (318)
+EXP (319)
+BIT_OR (320)
+QUE (321)
+SEMC (322) 3 4 5 6 13 14 17 82
+NE (323)
+
+
+Nonterminals, with rules where they appear
+
+$accept (69)
+    on left: 0
+S (70)
+    on left: 1, on right: 0
+compilation_unit (71)
+    on left: 2, on right: 1
+package_statement (72)
+    on left: 3, on right: 2
+import_statement (73)
+    on left: 4 5 6 7, on right: 2
+class_name (74)
+    on left: 8, on right: 5 9
+class_stmt (75)
+    on left: 9, on right: 2
+main_method (76)
+    on left: 10, on right: 9
+sl (77)
+    on left: 11 12, on right: 10 11 78 79
+s1 (78)
+    on left: 13 14 15 16 17, on right: 11
+variable_declaration (79)
+    on left: 18, on right: 13 83
+dtypes (80)
+    on left: 19 20 21, on right: 18
+ids1 (81)
+    on left: 24 25 26, on right: 19 25
+$@1 (82)
+    on left: 22, on right: 24
+$@2 (83)
+    on left: 23, on right: 24
+ids2 (84)
+    on left: 29 30 31, on right: 20 30
+$@3 (85)
+    on left: 27, on right: 29
+$@4 (86)
+    on left: 28, on right: 29
+ids3 (87)
+    on left: 34 35 36, on right: 21 35
+$@5 (88)
+    on left: 32, on right: 34
+$@6 (89)
+    on left: 33, on right: 34
+expression (90)
+    on left: 37 38, on right: 14 84
+rel_e (91)
+    on left: 40 42 44 46 48 50 53 54 55 56, on right: 34 37 53 78 86
+$@7 (92)
+    on left: 39, on right: 40
+$@8 (93)
+    on left: 41, on right: 42
+$@9 (94)
+    on left: 43, on right: 44
+$@10 (95)
+    on left: 45, on right: 46
+$@11 (96)
+    on left: 47, on right: 48
+$@12 (97)
+    on left: 49, on right: 50
+$@13 (98)
+    on left: 51, on right: 53
+$@14 (99)
+    on left: 52, on right: 53
+arithm_e (100)
+    on left: 58 60 62 64 68 69 71 73 75, on right: 24 29 38 40 42 44
+    46 48 50 56 58 60 62 64 68 88
+$@15 (101)
+    on left: 57, on right: 58
+$@16 (102)
+    on left: 59, on right: 60
+$@17 (103)
+    on left: 61, on right: 62
+$@18 (104)
+    on left: 63, on right: 64
+$@19 (105)
+    on left: 65, on right: 68
+$@20 (106)
+    on left: 66, on right: 68
+$@21 (107)
+    on left: 67, on right: 68
+$@22 (108)
+    on left: 70, on right: 71
+$@23 (109)
+    on left: 72, on right: 73
+$@24 (110)
+    on left: 74, on right: 75
+if_stmt (111)
+    on left: 78, on right: 15
+$@25 (112)
+    on left: 76, on right: 78
+$@26 (113)
+    on left: 77, on right: 78
+for_stmt (114)
+    on left: 79, on right: 16
+for_args (115)
+    on left: 82, on right: 79
+$@27 (116)
+    on left: 80, on right: 82
+$@28 (117)
+    on left: 81, on right: 82
+arg1 (118)
+    on left: 83 84 85, on right: 82
+arg2 (119)
+    on left: 86 87, on right: 82
+arg3 (120)
+    on left: 88 89, on right: 82
+
+
+State 0
+
+    0 $accept: . S $end
+
+    PACKAGE  shift, and go to state 1
+
+    S                  go to state 2
+    compilation_unit   go to state 3
+    package_statement  go to state 4
+
+
+State 1
+
+    3 package_statement: PACKAGE . IDENTIFIER SEMC
+
+    IDENTIFIER  shift, and go to state 5
+
+
+State 2
+
+    0 $accept: S . $end
+
+    $end  shift, and go to state 6
+
+
+State 3
+
+    1 S: compilation_unit .
+
+    $default  reduce using rule 1 (S)
+
+
+State 4
+
+    2 compilation_unit: package_statement . import_statement class_stmt
+
+    IMPORT  shift, and go to state 7
+
+    $default  reduce using rule 7 (import_statement)
+
+    import_statement  go to state 8
+
+
+State 5
+
+    3 package_statement: PACKAGE IDENTIFIER . SEMC
+
+    SEMC  shift, and go to state 9
+
+
+State 6
+
+    0 $accept: S $end .
+
+    $default  accept
+
+
+State 7
+
+    4 import_statement: IMPORT . IDENTIFIER DOT MUL SEMC
+    5                 | IMPORT . class_name SEMC
+    6                 | IMPORT . MUL SEMC
+
+    IDENTIFIER  shift, and go to state 10
+    MUL         shift, and go to state 11
+
+    class_name  go to state 12
+
+
+State 8
+
+    2 compilation_unit: package_statement import_statement . class_stmt
+
+    PUBLIC  shift, and go to state 13
+
+    class_stmt  go to state 14
+
+
+State 9
+
+    3 package_statement: PACKAGE IDENTIFIER SEMC .
+
+    $default  reduce using rule 3 (package_statement)
+
+
+State 10
+
+    4 import_statement: IMPORT IDENTIFIER . DOT MUL SEMC
+    8 class_name: IDENTIFIER .
+
+    DOT  shift, and go to state 15
+
+    $default  reduce using rule 8 (class_name)
+
+
+State 11
+
+    6 import_statement: IMPORT MUL . SEMC
+
+    SEMC  shift, and go to state 16
+
+
+State 12
+
+    5 import_statement: IMPORT class_name . SEMC
+
+    SEMC  shift, and go to state 17
+
+
+State 13
+
+    9 class_stmt: PUBLIC . CLASS class_name OF main_method CF
+
+    CLASS  shift, and go to state 18
+
+
+State 14
+
+    2 compilation_unit: package_statement import_statement class_stmt .
+
+    $default  reduce using rule 2 (compilation_unit)
+
+
+State 15
+
+    4 import_statement: IMPORT IDENTIFIER DOT . MUL SEMC
+
+    MUL  shift, and go to state 19
+
+
+State 16
+
+    6 import_statement: IMPORT MUL SEMC .
+
+    $default  reduce using rule 6 (import_statement)
+
+
+State 17
+
+    5 import_statement: IMPORT class_name SEMC .
+
+    $default  reduce using rule 5 (import_statement)
+
+
+State 18
+
+    9 class_stmt: PUBLIC CLASS . class_name OF main_method CF
+
+    IDENTIFIER  shift, and go to state 20
+
+    class_name  go to state 21
+
+
+State 19
+
+    4 import_statement: IMPORT IDENTIFIER DOT MUL . SEMC
+
+    SEMC  shift, and go to state 22
+
+
+State 20
+
+    8 class_name: IDENTIFIER .
+
+    $default  reduce using rule 8 (class_name)
+
+
+State 21
+
+    9 class_stmt: PUBLIC CLASS class_name . OF main_method CF
+
+    OF  shift, and go to state 23
+
+
+State 22
+
+    4 import_statement: IMPORT IDENTIFIER DOT MUL SEMC .
+
+    $default  reduce using rule 4 (import_statement)
+
+
+State 23
+
+    9 class_stmt: PUBLIC CLASS class_name OF . main_method CF
+
+    PUBLIC  shift, and go to state 24
+
+    main_method  go to state 25
+
+
+State 24
+
+   10 main_method: PUBLIC . STATIC VOID MAIN OC STRING OS FS ARGS CC OF sl CF
+
+    STATIC  shift, and go to state 26
+
+
+State 25
+
+    9 class_stmt: PUBLIC CLASS class_name OF main_method . CF
+
+    CF  shift, and go to state 27
+
+
+State 26
+
+   10 main_method: PUBLIC STATIC . VOID MAIN OC STRING OS FS ARGS CC OF sl CF
+
+    VOID  shift, and go to state 28
+
+
+State 27
+
+    9 class_stmt: PUBLIC CLASS class_name OF main_method CF .
+
+    $default  reduce using rule 9 (class_stmt)
+
+
+State 28
+
+   10 main_method: PUBLIC STATIC VOID . MAIN OC STRING OS FS ARGS CC OF sl CF
+
+    MAIN  shift, and go to state 29
+
+
+State 29
+
+   10 main_method: PUBLIC STATIC VOID MAIN . OC STRING OS FS ARGS CC OF sl CF
+
+    OC  shift, and go to state 30
+
+
+State 30
+
+   10 main_method: PUBLIC STATIC VOID MAIN OC . STRING OS FS ARGS CC OF sl CF
+
+    STRING  shift, and go to state 31
+
+
+State 31
+
+   10 main_method: PUBLIC STATIC VOID MAIN OC STRING . OS FS ARGS CC OF sl CF
+
+    OS  shift, and go to state 32
+
+
+State 32
+
+   10 main_method: PUBLIC STATIC VOID MAIN OC STRING OS . FS ARGS CC OF sl CF
+
+    FS  shift, and go to state 33
+
+
+State 33
+
+   10 main_method: PUBLIC STATIC VOID MAIN OC STRING OS FS . ARGS CC OF sl CF
+
+    ARGS  shift, and go to state 34
+
+
+State 34
+
+   10 main_method: PUBLIC STATIC VOID MAIN OC STRING OS FS ARGS . CC OF sl CF
+
+    CC  shift, and go to state 35
+
+
+State 35
+
+   10 main_method: PUBLIC STATIC VOID MAIN OC STRING OS FS ARGS CC . OF sl CF
+
+    OF  shift, and go to state 36
+
+
+State 36
+
+   10 main_method: PUBLIC STATIC VOID MAIN OC STRING OS FS ARGS CC OF . sl CF
+
+    $default  reduce using rule 12 (sl)
+
+    sl  go to state 37
+
+
+State 37
+
+   10 main_method: PUBLIC STATIC VOID MAIN OC STRING OS FS ARGS CC OF sl . CF
+   11 sl: sl . s1
+
+    IDENTIFIER  shift, and go to state 38
+    INT         shift, and go to state 39
+    FLOAT       shift, and go to state 40
+    IF          shift, and go to state 41
+    FOR         shift, and go to state 42
+    TRUE1       shift, and go to state 43
+    FALSE1      shift, and go to state 44
+    BOOLEAN     shift, and go to state 45
+    CF          shift, and go to state 46
+    SEMC        shift, and go to state 47
+
+    IDENTIFIER  [reduce using rule 65 ($@19)]
+    $default    reduce using rule 70 ($@22)
+
+    s1                    go to state 48
+    variable_declaration  go to state 49
+    dtypes                go to state 50
+    expression            go to state 51
+    rel_e                 go to state 52
+    arithm_e              go to state 53
+    $@19                  go to state 54
+    $@22                  go to state 55
+    if_stmt               go to state 56
+    for_stmt              go to state 57
+
+
+State 38
+
+   53 rel_e: IDENTIFIER . $@13 EQ $@14 rel_e
+   69 arithm_e: IDENTIFIER .
+   73         | IDENTIFIER . $@23 INC_OP
+   75         | IDENTIFIER . $@24 DEC_OP
+
+    INC_OP    reduce using rule 72 ($@23)
+    DEC_OP    reduce using rule 74 ($@24)
+    EQ        reduce using rule 51 ($@13)
+    $default  reduce using rule 69 (arithm_e)
+
+    $@13  go to state 58
+    $@23  go to state 59
+    $@24  go to state 60
+
+
+State 39
+
+   19 dtypes: INT . ids1
+
+    IDENTIFIER  shift, and go to state 61
+
+    ids1  go to state 62
+
+
+State 40
+
+   20 dtypes: FLOAT . ids2
+
+    IDENTIFIER  shift, and go to state 63
+
+    ids2  go to state 64
+
+
+State 41
+
+   78 if_stmt: IF . OC rel_e CC $@25 OF sl CF $@26 ELSE OF sl CF
+
+    OC  shift, and go to state 65
+
+
+State 42
+
+   79 for_stmt: FOR . OC for_args CC OF sl CF
+
+    OC  shift, and go to state 66
+
+
+State 43
+
+   54 rel_e: TRUE1 .
+
+    $default  reduce using rule 54 (rel_e)
+
+
+State 44
+
+   55 rel_e: FALSE1 .
+
+    $default  reduce using rule 55 (rel_e)
+
+
+State 45
+
+   21 dtypes: BOOLEAN . ids3
+
+    IDENTIFIER  shift, and go to state 67
+
+    ids3  go to state 68
+
+
+State 46
+
+   10 main_method: PUBLIC STATIC VOID MAIN OC STRING OS FS ARGS CC OF sl CF .
+
+    $default  reduce using rule 10 (main_method)
+
+
+State 47
+
+   17 s1: SEMC .
+
+    $default  reduce using rule 17 (s1)
+
+
+State 48
+
+   11 sl: sl s1 .
+
+    $default  reduce using rule 11 (sl)
+
+
+State 49
+
+   13 s1: variable_declaration . SEMC
+
+    SEMC  shift, and go to state 69
+
+
+State 50
+
+   18 variable_declaration: dtypes .
+
+    $default  reduce using rule 18 (variable_declaration)
+
+
+State 51
+
+   14 s1: expression . SEMC
+
+    SEMC  shift, and go to state 70
+
+
+State 52
+
+   37 expression: rel_e .
+
+    $default  reduce using rule 37 (expression)
+
+
+State 53
+
+   38 expression: arithm_e .
+   40 rel_e: arithm_e . LT $@7 arithm_e
+   42      | arithm_e . GT $@8 arithm_e
+   44      | arithm_e . LE $@9 arithm_e
+   46      | arithm_e . GE $@10 arithm_e
+   48      | arithm_e . DEQ $@11 arithm_e
+   50      | arithm_e . NE_OP $@12 arithm_e
+   56      | arithm_e .
+   58 arithm_e: arithm_e . ADD $@15 arithm_e
+   60         | arithm_e . SUB $@16 arithm_e
+   62         | arithm_e . MUL $@17 arithm_e
+   64         | arithm_e . DIV $@18 arithm_e
+
+    LE     shift, and go to state 71
+    GE     shift, and go to state 72
+    NE_OP  shift, and go to state 73
+    DEQ    shift, and go to state 74
+    ADD    shift, and go to state 75
+    SUB    shift, and go to state 76
+    MUL    shift, and go to state 77
+    DIV    shift, and go to state 78
+    LT     shift, and go to state 79
+    GT     shift, and go to state 80
+
+    SEMC      reduce using rule 38 (expression)
+    SEMC      [reduce using rule 56 (rel_e)]
+    $default  reduce using rule 38 (expression)
+
+
+State 54
+
+   68 arithm_e: $@19 . IDENTIFIER $@20 EQ $@21 arithm_e
+
+    IDENTIFIER  shift, and go to state 81
+
+
+State 55
+
+   71 arithm_e: $@22 . NUM
+
+    NUM  shift, and go to state 82
+
+
+State 56
+
+   15 s1: if_stmt .
+
+    $default  reduce using rule 15 (s1)
+
+
+State 57
+
+   16 s1: for_stmt .
+
+    $default  reduce using rule 16 (s1)
+
+
+State 58
+
+   53 rel_e: IDENTIFIER $@13 . EQ $@14 rel_e
+
+    EQ  shift, and go to state 83
+
+
+State 59
+
+   73 arithm_e: IDENTIFIER $@23 . INC_OP
+
+    INC_OP  shift, and go to state 84
+
+
+State 60
+
+   75 arithm_e: IDENTIFIER $@24 . DEC_OP
+
+    DEC_OP  shift, and go to state 85
+
+
+State 61
+
+   24 ids1: IDENTIFIER . $@1 EQ $@2 arithm_e
+   26     | IDENTIFIER .
+
+    EQ        reduce using rule 22 ($@1)
+    $default  reduce using rule 26 (ids1)
+
+    $@1  go to state 86
+
+
+State 62
+
+   19 dtypes: INT ids1 .
+   25 ids1: ids1 . COMMA IDENTIFIER
+
+    COMMA  shift, and go to state 87
+
+    $default  reduce using rule 19 (dtypes)
+
+
+State 63
+
+   29 ids2: IDENTIFIER . $@3 EQ $@4 arithm_e
+   31     | IDENTIFIER .
+
+    EQ        reduce using rule 27 ($@3)
+    $default  reduce using rule 31 (ids2)
+
+    $@3  go to state 88
+
+
+State 64
+
+   20 dtypes: FLOAT ids2 .
+   30 ids2: ids2 . COMMA IDENTIFIER
+
+    COMMA  shift, and go to state 89
+
+    $default  reduce using rule 20 (dtypes)
+
+
+State 65
+
+   78 if_stmt: IF OC . rel_e CC $@25 OF sl CF $@26 ELSE OF sl CF
+
+    IDENTIFIER  shift, and go to state 38
+    TRUE1       shift, and go to state 43
+    FALSE1      shift, and go to state 44
+
+    IDENTIFIER  [reduce using rule 65 ($@19)]
+    $default    reduce using rule 70 ($@22)
+
+    rel_e     go to state 90
+    arithm_e  go to state 91
+    $@19      go to state 54
+    $@22      go to state 55
+
+
+State 66
+
+   79 for_stmt: FOR OC . for_args CC OF sl CF
+
+    IDENTIFIER  shift, and go to state 38
+    INT         shift, and go to state 39
+    FLOAT       shift, and go to state 40
+    TRUE1       shift, and go to state 43
+    FALSE1      shift, and go to state 44
+    BOOLEAN     shift, and go to state 45
+
+    IDENTIFIER  [reduce using rule 65 ($@19)]
+    SEMC        reduce using rule 85 (arg1)
+    $default    reduce using rule 70 ($@22)
+
+    variable_declaration  go to state 92
+    dtypes                go to state 50
+    expression            go to state 93
+    rel_e                 go to state 52
+    arithm_e              go to state 53
+    $@19                  go to state 54
+    $@22                  go to state 55
+    for_args              go to state 94
+    arg1                  go to state 95
+
+
+State 67
+
+   34 ids3: IDENTIFIER . $@5 EQ $@6 rel_e
+   36     | IDENTIFIER .
+
+    EQ        reduce using rule 32 ($@5)
+    $default  reduce using rule 36 (ids3)
+
+    $@5  go to state 96
+
+
+State 68
+
+   21 dtypes: BOOLEAN ids3 .
+   35 ids3: ids3 . COMMA IDENTIFIER
+
+    COMMA  shift, and go to state 97
+
+    $default  reduce using rule 21 (dtypes)
+
+
+State 69
+
+   13 s1: variable_declaration SEMC .
+
+    $default  reduce using rule 13 (s1)
+
+
+State 70
+
+   14 s1: expression SEMC .
+
+    $default  reduce using rule 14 (s1)
+
+
+State 71
+
+   44 rel_e: arithm_e LE . $@9 arithm_e
+
+    $default  reduce using rule 43 ($@9)
+
+    $@9  go to state 98
+
+
+State 72
+
+   46 rel_e: arithm_e GE . $@10 arithm_e
+
+    $default  reduce using rule 45 ($@10)
+
+    $@10  go to state 99
+
+
+State 73
+
+   50 rel_e: arithm_e NE_OP . $@12 arithm_e
+
+    $default  reduce using rule 49 ($@12)
+
+    $@12  go to state 100
+
+
+State 74
+
+   48 rel_e: arithm_e DEQ . $@11 arithm_e
+
+    $default  reduce using rule 47 ($@11)
+
+    $@11  go to state 101
+
+
+State 75
+
+   58 arithm_e: arithm_e ADD . $@15 arithm_e
+
+    $default  reduce using rule 57 ($@15)
+
+    $@15  go to state 102
+
+
+State 76
+
+   60 arithm_e: arithm_e SUB . $@16 arithm_e
+
+    $default  reduce using rule 59 ($@16)
+
+    $@16  go to state 103
+
+
+State 77
+
+   62 arithm_e: arithm_e MUL . $@17 arithm_e
+
+    $default  reduce using rule 61 ($@17)
+
+    $@17  go to state 104
+
+
+State 78
+
+   64 arithm_e: arithm_e DIV . $@18 arithm_e
+
+    $default  reduce using rule 63 ($@18)
+
+    $@18  go to state 105
+
+
+State 79
+
+   40 rel_e: arithm_e LT . $@7 arithm_e
+
+    $default  reduce using rule 39 ($@7)
+
+    $@7  go to state 106
+
+
+State 80
+
+   42 rel_e: arithm_e GT . $@8 arithm_e
+
+    $default  reduce using rule 41 ($@8)
+
+    $@8  go to state 107
+
+
+State 81
+
+   68 arithm_e: $@19 IDENTIFIER . $@20 EQ $@21 arithm_e
+
+    $default  reduce using rule 66 ($@20)
+
+    $@20  go to state 108
+
+
+State 82
+
+   71 arithm_e: $@22 NUM .
+
+    $default  reduce using rule 71 (arithm_e)
+
+
+State 83
+
+   53 rel_e: IDENTIFIER $@13 EQ . $@14 rel_e
+
+    $default  reduce using rule 52 ($@14)
+
+    $@14  go to state 109
+
+
+State 84
+
+   73 arithm_e: IDENTIFIER $@23 INC_OP .
+
+    $default  reduce using rule 73 (arithm_e)
+
+
+State 85
+
+   75 arithm_e: IDENTIFIER $@24 DEC_OP .
+
+    $default  reduce using rule 75 (arithm_e)
+
+
+State 86
+
+   24 ids1: IDENTIFIER $@1 . EQ $@2 arithm_e
+
+    EQ  shift, and go to state 110
+
+
+State 87
+
+   25 ids1: ids1 COMMA . IDENTIFIER
+
+    IDENTIFIER  shift, and go to state 111
+
+
+State 88
+
+   29 ids2: IDENTIFIER $@3 . EQ $@4 arithm_e
+
+    EQ  shift, and go to state 112
+
+
+State 89
+
+   30 ids2: ids2 COMMA . IDENTIFIER
+
+    IDENTIFIER  shift, and go to state 113
+
+
+State 90
+
+   78 if_stmt: IF OC rel_e . CC $@25 OF sl CF $@26 ELSE OF sl CF
+
+    CC  shift, and go to state 114
+
+
+State 91
+
+   40 rel_e: arithm_e . LT $@7 arithm_e
+   42      | arithm_e . GT $@8 arithm_e
+   44      | arithm_e . LE $@9 arithm_e
+   46      | arithm_e . GE $@10 arithm_e
+   48      | arithm_e . DEQ $@11 arithm_e
+   50      | arithm_e . NE_OP $@12 arithm_e
+   56      | arithm_e .
+   58 arithm_e: arithm_e . ADD $@15 arithm_e
+   60         | arithm_e . SUB $@16 arithm_e
+   62         | arithm_e . MUL $@17 arithm_e
+   64         | arithm_e . DIV $@18 arithm_e
+
+    LE     shift, and go to state 71
+    GE     shift, and go to state 72
+    NE_OP  shift, and go to state 73
+    DEQ    shift, and go to state 74
+    ADD    shift, and go to state 75
+    SUB    shift, and go to state 76
+    MUL    shift, and go to state 77
+    DIV    shift, and go to state 78
+    LT     shift, and go to state 79
+    GT     shift, and go to state 80
+
+    $default  reduce using rule 56 (rel_e)
+
+
+State 92
+
+   83 arg1: variable_declaration .
+
+    $default  reduce using rule 83 (arg1)
+
+
+State 93
+
+   84 arg1: expression .
+
+    $default  reduce using rule 84 (arg1)
+
+
+State 94
+
+   79 for_stmt: FOR OC for_args . CC OF sl CF
+
+    CC  shift, and go to state 115
+
+
+State 95
+
+   82 for_args: arg1 . $@27 SEMC arg2 $@28 SEMC arg3
+
+    $default  reduce using rule 80 ($@27)
+
+    $@27  go to state 116
+
+
+State 96
+
+   34 ids3: IDENTIFIER $@5 . EQ $@6 rel_e
+
+    EQ  shift, and go to state 117
+
+
+State 97
+
+   35 ids3: ids3 COMMA . IDENTIFIER
+
+    IDENTIFIER  shift, and go to state 118
+
+
+State 98
+
+   44 rel_e: arithm_e LE $@9 . arithm_e
+
+    IDENTIFIER  shift, and go to state 119
+
+    IDENTIFIER  [reduce using rule 65 ($@19)]
+    $default    reduce using rule 70 ($@22)
+
+    arithm_e  go to state 120
+    $@19      go to state 54
+    $@22      go to state 55
+
+
+State 99
+
+   46 rel_e: arithm_e GE $@10 . arithm_e
+
+    IDENTIFIER  shift, and go to state 119
+
+    IDENTIFIER  [reduce using rule 65 ($@19)]
+    $default    reduce using rule 70 ($@22)
+
+    arithm_e  go to state 121
+    $@19      go to state 54
+    $@22      go to state 55
+
+
+State 100
+
+   50 rel_e: arithm_e NE_OP $@12 . arithm_e
+
+    IDENTIFIER  shift, and go to state 119
+
+    IDENTIFIER  [reduce using rule 65 ($@19)]
+    $default    reduce using rule 70 ($@22)
+
+    arithm_e  go to state 122
+    $@19      go to state 54
+    $@22      go to state 55
+
+
+State 101
+
+   48 rel_e: arithm_e DEQ $@11 . arithm_e
+
+    IDENTIFIER  shift, and go to state 119
+
+    IDENTIFIER  [reduce using rule 65 ($@19)]
+    $default    reduce using rule 70 ($@22)
+
+    arithm_e  go to state 123
+    $@19      go to state 54
+    $@22      go to state 55
+
+
+State 102
+
+   58 arithm_e: arithm_e ADD $@15 . arithm_e
+
+    IDENTIFIER  shift, and go to state 119
+
+    IDENTIFIER  [reduce using rule 65 ($@19)]
+    $default    reduce using rule 70 ($@22)
+
+    arithm_e  go to state 124
+    $@19      go to state 54
+    $@22      go to state 55
+
+
+State 103
+
+   60 arithm_e: arithm_e SUB $@16 . arithm_e
+
+    IDENTIFIER  shift, and go to state 119
+
+    IDENTIFIER  [reduce using rule 65 ($@19)]
+    $default    reduce using rule 70 ($@22)
+
+    arithm_e  go to state 125
+    $@19      go to state 54
+    $@22      go to state 55
+
+
+State 104
+
+   62 arithm_e: arithm_e MUL $@17 . arithm_e
+
+    IDENTIFIER  shift, and go to state 119
+
+    IDENTIFIER  [reduce using rule 65 ($@19)]
+    $default    reduce using rule 70 ($@22)
+
+    arithm_e  go to state 126
+    $@19      go to state 54
+    $@22      go to state 55
+
+
+State 105
+
+   64 arithm_e: arithm_e DIV $@18 . arithm_e
+
+    IDENTIFIER  shift, and go to state 119
+
+    IDENTIFIER  [reduce using rule 65 ($@19)]
+    $default    reduce using rule 70 ($@22)
+
+    arithm_e  go to state 127
+    $@19      go to state 54
+    $@22      go to state 55
+
+
+State 106
+
+   40 rel_e: arithm_e LT $@7 . arithm_e
+
+    IDENTIFIER  shift, and go to state 119
+
+    IDENTIFIER  [reduce using rule 65 ($@19)]
+    $default    reduce using rule 70 ($@22)
+
+    arithm_e  go to state 128
+    $@19      go to state 54
+    $@22      go to state 55
+
+
+State 107
+
+   42 rel_e: arithm_e GT $@8 . arithm_e
+
+    IDENTIFIER  shift, and go to state 119
+
+    IDENTIFIER  [reduce using rule 65 ($@19)]
+    $default    reduce using rule 70 ($@22)
+
+    arithm_e  go to state 129
+    $@19      go to state 54
+    $@22      go to state 55
+
+
+State 108
+
+   68 arithm_e: $@19 IDENTIFIER $@20 . EQ $@21 arithm_e
+
+    EQ  shift, and go to state 130
+
+
+State 109
+
+   53 rel_e: IDENTIFIER $@13 EQ $@14 . rel_e
+
+    IDENTIFIER  shift, and go to state 38
+    TRUE1       shift, and go to state 43
+    FALSE1      shift, and go to state 44
+
+    IDENTIFIER  [reduce using rule 65 ($@19)]
+    $default    reduce using rule 70 ($@22)
+
+    rel_e     go to state 131
+    arithm_e  go to state 91
+    $@19      go to state 54
+    $@22      go to state 55
+
+
+State 110
+
+   24 ids1: IDENTIFIER $@1 EQ . $@2 arithm_e
+
+    $default  reduce using rule 23 ($@2)
+
+    $@2  go to state 132
+
+
+State 111
+
+   25 ids1: ids1 COMMA IDENTIFIER .
+
+    $default  reduce using rule 25 (ids1)
+
+
+State 112
+
+   29 ids2: IDENTIFIER $@3 EQ . $@4 arithm_e
+
+    $default  reduce using rule 28 ($@4)
+
+    $@4  go to state 133
+
+
+State 113
+
+   30 ids2: ids2 COMMA IDENTIFIER .
+
+    $default  reduce using rule 30 (ids2)
+
+
+State 114
+
+   78 if_stmt: IF OC rel_e CC . $@25 OF sl CF $@26 ELSE OF sl CF
+
+    $default  reduce using rule 76 ($@25)
+
+    $@25  go to state 134
+
+
+State 115
+
+   79 for_stmt: FOR OC for_args CC . OF sl CF
+
+    OF  shift, and go to state 135
+
+
+State 116
+
+   82 for_args: arg1 $@27 . SEMC arg2 $@28 SEMC arg3
+
+    SEMC  shift, and go to state 136
+
+
+State 117
+
+   34 ids3: IDENTIFIER $@5 EQ . $@6 rel_e
+
+    $default  reduce using rule 33 ($@6)
+
+    $@6  go to state 137
+
+
+State 118
+
+   35 ids3: ids3 COMMA IDENTIFIER .
+
+    $default  reduce using rule 35 (ids3)
+
+
+State 119
+
+   69 arithm_e: IDENTIFIER .
+   73         | IDENTIFIER . $@23 INC_OP
+   75         | IDENTIFIER . $@24 DEC_OP
+
+    INC_OP    reduce using rule 72 ($@23)
+    DEC_OP    reduce using rule 74 ($@24)
+    $default  reduce using rule 69 (arithm_e)
+
+    $@23  go to state 59
+    $@24  go to state 60
+
+
+State 120
+
+   44 rel_e: arithm_e LE $@9 arithm_e .
+   58 arithm_e: arithm_e . ADD $@15 arithm_e
+   60         | arithm_e . SUB $@16 arithm_e
+   62         | arithm_e . MUL $@17 arithm_e
+   64         | arithm_e . DIV $@18 arithm_e
+
+    ADD  shift, and go to state 75
+    SUB  shift, and go to state 76
+    MUL  shift, and go to state 77
+    DIV  shift, and go to state 78
+
+    $default  reduce using rule 44 (rel_e)
+
+
+State 121
+
+   46 rel_e: arithm_e GE $@10 arithm_e .
+   58 arithm_e: arithm_e . ADD $@15 arithm_e
+   60         | arithm_e . SUB $@16 arithm_e
+   62         | arithm_e . MUL $@17 arithm_e
+   64         | arithm_e . DIV $@18 arithm_e
+
+    ADD  shift, and go to state 75
+    SUB  shift, and go to state 76
+    MUL  shift, and go to state 77
+    DIV  shift, and go to state 78
+
+    $default  reduce using rule 46 (rel_e)
+
+
+State 122
+
+   50 rel_e: arithm_e NE_OP $@12 arithm_e .
+   58 arithm_e: arithm_e . ADD $@15 arithm_e
+   60         | arithm_e . SUB $@16 arithm_e
+   62         | arithm_e . MUL $@17 arithm_e
+   64         | arithm_e . DIV $@18 arithm_e
+
+    ADD  shift, and go to state 75
+    SUB  shift, and go to state 76
+    MUL  shift, and go to state 77
+    DIV  shift, and go to state 78
+
+    $default  reduce using rule 50 (rel_e)
+
+
+State 123
+
+   48 rel_e: arithm_e DEQ $@11 arithm_e .
+   58 arithm_e: arithm_e . ADD $@15 arithm_e
+   60         | arithm_e . SUB $@16 arithm_e
+   62         | arithm_e . MUL $@17 arithm_e
+   64         | arithm_e . DIV $@18 arithm_e
+
+    ADD  shift, and go to state 75
+    SUB  shift, and go to state 76
+    MUL  shift, and go to state 77
+    DIV  shift, and go to state 78
+
+    $default  reduce using rule 48 (rel_e)
+
+
+State 124
+
+   58 arithm_e: arithm_e . ADD $@15 arithm_e
+   58         | arithm_e ADD $@15 arithm_e .
+   60         | arithm_e . SUB $@16 arithm_e
+   62         | arithm_e . MUL $@17 arithm_e
+   64         | arithm_e . DIV $@18 arithm_e
+
+    MUL  shift, and go to state 77
+    DIV  shift, and go to state 78
+
+    $default  reduce using rule 58 (arithm_e)
+
+
+State 125
+
+   58 arithm_e: arithm_e . ADD $@15 arithm_e
+   60         | arithm_e . SUB $@16 arithm_e
+   60         | arithm_e SUB $@16 arithm_e .
+   62         | arithm_e . MUL $@17 arithm_e
+   64         | arithm_e . DIV $@18 arithm_e
+
+    MUL  shift, and go to state 77
+    DIV  shift, and go to state 78
+
+    $default  reduce using rule 60 (arithm_e)
+
+
+State 126
+
+   58 arithm_e: arithm_e . ADD $@15 arithm_e
+   60         | arithm_e . SUB $@16 arithm_e
+   62         | arithm_e . MUL $@17 arithm_e
+   62         | arithm_e MUL $@17 arithm_e .
+   64         | arithm_e . DIV $@18 arithm_e
+
+    $default  reduce using rule 62 (arithm_e)
+
+
+State 127
+
+   58 arithm_e: arithm_e . ADD $@15 arithm_e
+   60         | arithm_e . SUB $@16 arithm_e
+   62         | arithm_e . MUL $@17 arithm_e
+   64         | arithm_e . DIV $@18 arithm_e
+   64         | arithm_e DIV $@18 arithm_e .
+
+    $default  reduce using rule 64 (arithm_e)
+
+
+State 128
+
+   40 rel_e: arithm_e LT $@7 arithm_e .
+   58 arithm_e: arithm_e . ADD $@15 arithm_e
+   60         | arithm_e . SUB $@16 arithm_e
+   62         | arithm_e . MUL $@17 arithm_e
+   64         | arithm_e . DIV $@18 arithm_e
+
+    ADD  shift, and go to state 75
+    SUB  shift, and go to state 76
+    MUL  shift, and go to state 77
+    DIV  shift, and go to state 78
+
+    $default  reduce using rule 40 (rel_e)
+
+
+State 129
+
+   42 rel_e: arithm_e GT $@8 arithm_e .
+   58 arithm_e: arithm_e . ADD $@15 arithm_e
+   60         | arithm_e . SUB $@16 arithm_e
+   62         | arithm_e . MUL $@17 arithm_e
+   64         | arithm_e . DIV $@18 arithm_e
+
+    ADD  shift, and go to state 75
+    SUB  shift, and go to state 76
+    MUL  shift, and go to state 77
+    DIV  shift, and go to state 78
+
+    $default  reduce using rule 42 (rel_e)
+
+
+State 130
+
+   68 arithm_e: $@19 IDENTIFIER $@20 EQ . $@21 arithm_e
+
+    $default  reduce using rule 67 ($@21)
+
+    $@21  go to state 138
+
+
+State 131
+
+   53 rel_e: IDENTIFIER $@13 EQ $@14 rel_e .
+
+    $default  reduce using rule 53 (rel_e)
+
+
+State 132
+
+   24 ids1: IDENTIFIER $@1 EQ $@2 . arithm_e
+
+    IDENTIFIER  shift, and go to state 119
+
+    IDENTIFIER  [reduce using rule 65 ($@19)]
+    $default    reduce using rule 70 ($@22)
+
+    arithm_e  go to state 139
+    $@19      go to state 54
+    $@22      go to state 55
+
+
+State 133
+
+   29 ids2: IDENTIFIER $@3 EQ $@4 . arithm_e
+
+    IDENTIFIER  shift, and go to state 119
+
+    IDENTIFIER  [reduce using rule 65 ($@19)]
+    $default    reduce using rule 70 ($@22)
+
+    arithm_e  go to state 140
+    $@19      go to state 54
+    $@22      go to state 55
+
+
+State 134
+
+   78 if_stmt: IF OC rel_e CC $@25 . OF sl CF $@26 ELSE OF sl CF
+
+    OF  shift, and go to state 141
+
+
+State 135
+
+   79 for_stmt: FOR OC for_args CC OF . sl CF
+
+    $default  reduce using rule 12 (sl)
+
+    sl  go to state 142
+
+
+State 136
+
+   82 for_args: arg1 $@27 SEMC . arg2 $@28 SEMC arg3
+
+    IDENTIFIER  shift, and go to state 38
+    TRUE1       shift, and go to state 43
+    FALSE1      shift, and go to state 44
+
+    IDENTIFIER  [reduce using rule 65 ($@19)]
+    SEMC        reduce using rule 87 (arg2)
+    $default    reduce using rule 70 ($@22)
+
+    rel_e     go to state 143
+    arithm_e  go to state 91
+    $@19      go to state 54
+    $@22      go to state 55
+    arg2      go to state 144
+
+
+State 137
+
+   34 ids3: IDENTIFIER $@5 EQ $@6 . rel_e
+
+    IDENTIFIER  shift, and go to state 38
+    TRUE1       shift, and go to state 43
+    FALSE1      shift, and go to state 44
+
+    IDENTIFIER  [reduce using rule 65 ($@19)]
+    $default    reduce using rule 70 ($@22)
+
+    rel_e     go to state 145
+    arithm_e  go to state 91
+    $@19      go to state 54
+    $@22      go to state 55
+
+
+State 138
+
+   68 arithm_e: $@19 IDENTIFIER $@20 EQ $@21 . arithm_e
+
+    IDENTIFIER  shift, and go to state 119
+
+    IDENTIFIER  [reduce using rule 65 ($@19)]
+    $default    reduce using rule 70 ($@22)
+
+    arithm_e  go to state 146
+    $@19      go to state 54
+    $@22      go to state 55
+
+
+State 139
+
+   24 ids1: IDENTIFIER $@1 EQ $@2 arithm_e .
+   58 arithm_e: arithm_e . ADD $@15 arithm_e
+   60         | arithm_e . SUB $@16 arithm_e
+   62         | arithm_e . MUL $@17 arithm_e
+   64         | arithm_e . DIV $@18 arithm_e
+
+    ADD  shift, and go to state 75
+    SUB  shift, and go to state 76
+    MUL  shift, and go to state 77
+    DIV  shift, and go to state 78
+
+    $default  reduce using rule 24 (ids1)
+
+
+State 140
+
+   29 ids2: IDENTIFIER $@3 EQ $@4 arithm_e .
+   58 arithm_e: arithm_e . ADD $@15 arithm_e
+   60         | arithm_e . SUB $@16 arithm_e
+   62         | arithm_e . MUL $@17 arithm_e
+   64         | arithm_e . DIV $@18 arithm_e
+
+    ADD  shift, and go to state 75
+    SUB  shift, and go to state 76
+    MUL  shift, and go to state 77
+    DIV  shift, and go to state 78
+
+    $default  reduce using rule 29 (ids2)
+
+
+State 141
+
+   78 if_stmt: IF OC rel_e CC $@25 OF . sl CF $@26 ELSE OF sl CF
+
+    $default  reduce using rule 12 (sl)
+
+    sl  go to state 147
+
+
+State 142
+
+   11 sl: sl . s1
+   79 for_stmt: FOR OC for_args CC OF sl . CF
+
+    IDENTIFIER  shift, and go to state 38
+    INT         shift, and go to state 39
+    FLOAT       shift, and go to state 40
+    IF          shift, and go to state 41
+    FOR         shift, and go to state 42
+    TRUE1       shift, and go to state 43
+    FALSE1      shift, and go to state 44
+    BOOLEAN     shift, and go to state 45
+    CF          shift, and go to state 148
+    SEMC        shift, and go to state 47
+
+    IDENTIFIER  [reduce using rule 65 ($@19)]
+    $default    reduce using rule 70 ($@22)
+
+    s1                    go to state 48
+    variable_declaration  go to state 49
+    dtypes                go to state 50
+    expression            go to state 51
+    rel_e                 go to state 52
+    arithm_e              go to state 53
+    $@19                  go to state 54
+    $@22                  go to state 55
+    if_stmt               go to state 56
+    for_stmt              go to state 57
+
+
+State 143
+
+   86 arg2: rel_e .
+
+    $default  reduce using rule 86 (arg2)
+
+
+State 144
+
+   82 for_args: arg1 $@27 SEMC arg2 . $@28 SEMC arg3
+
+    $default  reduce using rule 81 ($@28)
+
+    $@28  go to state 149
+
+
+State 145
+
+   34 ids3: IDENTIFIER $@5 EQ $@6 rel_e .
+
+    $default  reduce using rule 34 (ids3)
+
+
+State 146
+
+   58 arithm_e: arithm_e . ADD $@15 arithm_e
+   60         | arithm_e . SUB $@16 arithm_e
+   62         | arithm_e . MUL $@17 arithm_e
+   64         | arithm_e . DIV $@18 arithm_e
+   68         | $@19 IDENTIFIER $@20 EQ $@21 arithm_e .
+
+    ADD  shift, and go to state 75
+    SUB  shift, and go to state 76
+    MUL  shift, and go to state 77
+    DIV  shift, and go to state 78
+
+    $default  reduce using rule 68 (arithm_e)
+
+
+State 147
+
+   11 sl: sl . s1
+   78 if_stmt: IF OC rel_e CC $@25 OF sl . CF $@26 ELSE OF sl CF
+
+    IDENTIFIER  shift, and go to state 38
+    INT         shift, and go to state 39
+    FLOAT       shift, and go to state 40
+    IF          shift, and go to state 41
+    FOR         shift, and go to state 42
+    TRUE1       shift, and go to state 43
+    FALSE1      shift, and go to state 44
+    BOOLEAN     shift, and go to state 45
+    CF          shift, and go to state 150
+    SEMC        shift, and go to state 47
+
+    IDENTIFIER  [reduce using rule 65 ($@19)]
+    $default    reduce using rule 70 ($@22)
+
+    s1                    go to state 48
+    variable_declaration  go to state 49
+    dtypes                go to state 50
+    expression            go to state 51
+    rel_e                 go to state 52
+    arithm_e              go to state 53
+    $@19                  go to state 54
+    $@22                  go to state 55
+    if_stmt               go to state 56
+    for_stmt              go to state 57
+
+
+State 148
+
+   79 for_stmt: FOR OC for_args CC OF sl CF .
+
+    $default  reduce using rule 79 (for_stmt)
+
+
+State 149
+
+   82 for_args: arg1 $@27 SEMC arg2 $@28 . SEMC arg3
+
+    SEMC  shift, and go to state 151
+
+
+State 150
+
+   78 if_stmt: IF OC rel_e CC $@25 OF sl CF . $@26 ELSE OF sl CF
+
+    $default  reduce using rule 77 ($@26)
+
+    $@26  go to state 152
+
+
+State 151
+
+   82 for_args: arg1 $@27 SEMC arg2 $@28 SEMC . arg3
+
+    IDENTIFIER  shift, and go to state 119
+
+    IDENTIFIER  [reduce using rule 65 ($@19)]
+    CC          reduce using rule 89 (arg3)
+    $default    reduce using rule 70 ($@22)
+
+    arithm_e  go to state 153
+    $@19      go to state 54
+    $@22      go to state 55
+    arg3      go to state 154
+
+
+State 152
+
+   78 if_stmt: IF OC rel_e CC $@25 OF sl CF $@26 . ELSE OF sl CF
+
+    ELSE  shift, and go to state 155
+
+
+State 153
+
+   58 arithm_e: arithm_e . ADD $@15 arithm_e
+   60         | arithm_e . SUB $@16 arithm_e
+   62         | arithm_e . MUL $@17 arithm_e
+   64         | arithm_e . DIV $@18 arithm_e
+   88 arg3: arithm_e .
+
+    ADD  shift, and go to state 75
+    SUB  shift, and go to state 76
+    MUL  shift, and go to state 77
+    DIV  shift, and go to state 78
+
+    $default  reduce using rule 88 (arg3)
+
+
+State 154
+
+   82 for_args: arg1 $@27 SEMC arg2 $@28 SEMC arg3 .
+
+    $default  reduce using rule 82 (for_args)
+
+
+State 155
+
+   78 if_stmt: IF OC rel_e CC $@25 OF sl CF $@26 ELSE . OF sl CF
+
+    OF  shift, and go to state 156
+
+
+State 156
+
+   78 if_stmt: IF OC rel_e CC $@25 OF sl CF $@26 ELSE OF . sl CF
+
+    $default  reduce using rule 12 (sl)
+
+    sl  go to state 157
+
+
+State 157
+
+   11 sl: sl . s1
+   78 if_stmt: IF OC rel_e CC $@25 OF sl CF $@26 ELSE OF sl . CF
+
+    IDENTIFIER  shift, and go to state 38
+    INT         shift, and go to state 39
+    FLOAT       shift, and go to state 40
+    IF          shift, and go to state 41
+    FOR         shift, and go to state 42
+    TRUE1       shift, and go to state 43
+    FALSE1      shift, and go to state 44
+    BOOLEAN     shift, and go to state 45
+    CF          shift, and go to state 158
+    SEMC        shift, and go to state 47
+
+    IDENTIFIER  [reduce using rule 65 ($@19)]
+    $default    reduce using rule 70 ($@22)
+
+    s1                    go to state 48
+    variable_declaration  go to state 49
+    dtypes                go to state 50
+    expression            go to state 51
+    rel_e                 go to state 52
+    arithm_e              go to state 53
+    $@19                  go to state 54
+    $@22                  go to state 55
+    if_stmt               go to state 56
+    for_stmt              go to state 57
+
+
+State 158
+
+   78 if_stmt: IF OC rel_e CC $@25 OF sl CF $@26 ELSE OF sl CF .
+
+    $default  reduce using rule 78 (if_stmt)
